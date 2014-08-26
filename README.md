@@ -8,3 +8,8 @@ Due to the nature of TCGA data, test data is not included. The enviroment variab
 
 All of the metadata for COAD can be downloaded, and the environment variable points to the top-level directory. A subdirectory called "Biotab" is expected to contain the txt files.
 
+
+###### Dependencies
+* curb
+* minitest
+* minitest-reporters

@@ -45,6 +45,14 @@ module ClinicalTCGA
       @barcodeLen = @h.keys[3].split("-").size
     end
     #
+    # returns the top header of the metadata file
+    #
+    def getHeader() @header1 end
+    #
+    # returns the second header, sometimes differs in description from top header
+    #
+    def getSecondHeader() @header2 end
+    #
     # return entire row of a sample as a hash 
     #
     def getSampleRow(sampleID) 
@@ -75,7 +83,8 @@ module ClinicalTCGA
       
     end
     #
-    # return only a single value of a sample's row
+    # return only a single value of a sample's row - inefficient if 
+    # you want to extract multiple values for each sample
     #
     def getSampleValue(sampleID, colName)
       if @h.has_key?(sampleID) then
