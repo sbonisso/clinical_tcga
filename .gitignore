@@ -1,3 +1,16 @@
+## specific
+lib/clinical_tcga/addMetadataToMapping.rb
+lib/clinical_tcga/appendMetadata.rb
+lib/clinical_tcga/convertMappingIGHC.rb
+lib/clinical_tcga/correlateSamples.rb
+lib/clinical_tcga/getTCTAUUIDS.rb
+lib/clinical_tcga/sampleIGHCPartition.rb
+## generic 
+*~
+*.txt
+*.fa
+*.ebwt
+## default ruby 
 *.gem
 *.rbc
 /.config

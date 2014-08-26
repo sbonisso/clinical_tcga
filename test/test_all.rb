@@ -1,0 +1,2 @@
+require_relative 'test_clinical_metadata'
+require_relative 'test_convert_uuid'
