@@ -60,7 +60,7 @@ class TestClinicalMetadata < MiniTest::Test
 
     cm = ClinicalTCGA::ClinicalMetadata.new(clinFile)
     exp_header_lst = ["bcr_sample_barcode", "bcr_slide_barcode", "bcr_slide_uuid", "is_derived_from_ffpe", "percent_lymphocyte_infiltration", "percent_monocyte_infiltration", "percent_necrosis", "percent_neutrophil_infiltration", "percent_normal_cells", "percent_stromal_cells", "percent_tumor_cells", "percent_tumor_nuclei", "section_location"]
-    assert(cm.getHeader, exp_header_lst, "header differs from expected")
+    assert_equal(cm.getHeader, exp_header_lst, "header differs from expected")
   end
   
 end

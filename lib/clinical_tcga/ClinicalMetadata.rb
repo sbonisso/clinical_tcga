@@ -1,8 +1,5 @@
 #!/usr/bin/env ruby
 
-#
-# class to represent clinical data (patient,followup,etc) from TCGA
-#
 
 require 'clinical_tcga/ConvertUUIDToBarcode.rb'
 
@@ -26,7 +23,9 @@ class Array
 end
 
 module ClinicalTCGA
-
+  #
+  # class to represent clinical data (patient,followup,etc) from TCGA
+  #
   class ClinicalMetadata
 
     include ConvertUUIDToBarcode
@@ -36,6 +35,7 @@ module ClinicalTCGA
       lines = IO.readlines(mdFile)
       @header1 = lines[0].chomp.split("\t")
       @header2 = lines[1].chomp.split("\t")
+      @header = @header1[1..@header1.size]
       @mat = lines[2..lines.size].map{|l| l.chomp.split("\t")}
       # create hash of hashes, {sampleID => {colName => val} }
       @h = @mat.inject({}) do |h,ary|
@@ -62,13 +62,20 @@ module ClinicalTCGA
     #
     #
     def getSampleRowAmbiguous(sampleID)
+      #puts [sampleID, !@h.has_key?(sampleID)].join("\t")
       if !@h.has_key?(sampleID)
         # get all keys that are  superstrings of sampleID
         selK = @h.keys.select{|k| k.include?(sampleID)}
-        puts selK.to_s
         tmpH = Hash.new
-        @h[selK[0]].keys.each do |vk| 
+        #puts "SELK\t#{selK.to_s}"
+        return nil if selK.empty?
+        #puts @h[selK[0]].keys.to_s
+        # puts @header.to_s
+        # @h[selK[0]].keys.each do |vk| 
+        @header.each do |vk|
+          #selK.each{|sK| puts [":::", sK, @h[sK].to_s].join("\t")}
           vals = selK.map{|sK| @h[sK][vk]}
+          #puts [vk, vals.to_s].join("\t")
           selVal = if vals[0].numeric? then
                      vals.map{|v| v.to_f}.mean 
                    else
