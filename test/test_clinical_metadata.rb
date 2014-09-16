@@ -1,7 +1,7 @@
 require_relative 'load_helper'
 require_relative 'test_helper'
 
-require 'clinical_tcga/ClinicalMetadata'
+require 'clinical_tcga'
 
 class TestClinicalMetadata < MiniTest::Test  
   #
