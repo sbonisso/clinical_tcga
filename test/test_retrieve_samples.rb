@@ -20,7 +20,7 @@ class TestRetrieveSamples < MiniTest::Test
   def test_add_dir()
     dirpath = "#{ENV['TCGA_CLINICAL_TEST_DATA']}/Biotab/"
     rs = ClinicalTCGA::RetrieveSamples.new(["TCGA-A6-2671"], ["death_days_to"], false)
-    rs.add_all_sources(dirpath)
+    rs.add_all_sources(dirpath, false)  # suppress progress bar for unit test
 
     assert_equal(rs.h.keys.size, 18)
     assert(rs.h.has_key?("biospecimen_sample"))
@@ -76,7 +76,7 @@ class TestRetrieveSamples < MiniTest::Test
     rs = ClinicalTCGA::RetrieveSamples.new(["TCGA-QG-A5YW", "TCGA-A6-2676"],
                                            feature_v,
                                            false)
-    rs.add_all_sources("#{ENV['TCGA_CLINICAL_TEST_DATA']}/Biotab/")
+    rs.add_all_sources("#{ENV['TCGA_CLINICAL_TEST_DATA']}/Biotab/", false)  # suppress progress bar for unit test
     
     h = Hash.new
     rs.get_feature_vector{|sample,fV| h[sample] = fV}

@@ -28,17 +28,13 @@ module ClinicalTCGA
     #
     # given a directory, add all .txt files
     #
-    def add_all_sources(dirpath)
+    def add_all_sources(dirpath,show_pbar=true)
       file_list = Dir.glob("#{dirpath}*.txt")
-      ProgressBar.new("load files", file_list.size) do |pbar|
-        file_list.each do |f|
-          self.add_tcga_source(f)
-          pbar.inc
-        end
+      pbar = ProgressBar.new("load files", file_list.size) if show_pbar
+      Dir.glob("#{dirpath}*.txt").each do |f|
+        self.add_tcga_source(f)
+        pbar.inc if show_pbar
       end
-      # Dir.glob("#{dirpath}*.txt").each do |f|
-      #   self.add_tcga_source(f)
-      # end
     end
     #
     # given a feature, return the hash it's in
@@ -58,9 +54,6 @@ module ClinicalTCGA
           next if !flst[i].nil?  # skip if already filled
           hn = feature_lookup(f)
           r = @h[hn].getSampleRowAmbiguous(sample)
-          #r = @h[hn].getSampleRow(sample)
-          #r.nil? ? nil : r[f]
-          #fL[i] = r[f]
           next if r.nil?  # skip if couldn't find sample or feature
           @featureLst.each_with_index{|local_f,j| flst[j] = r[local_f] if r.has_key?(local_f) && flst[j].nil?}
         end

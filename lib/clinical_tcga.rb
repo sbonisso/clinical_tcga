@@ -4,6 +4,4 @@ require 'clinical_tcga/RetrieveSamples'
 
 module ClinicalTCGA
 
-  
-
 end
