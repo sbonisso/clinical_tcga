@@ -1,5 +1,5 @@
 
-
+require 'progressbar'
 require 'clinical_tcga/ClinicalMetadata'
 
 module ClinicalTCGA
@@ -29,14 +29,21 @@ module ClinicalTCGA
     # given a directory, add all .txt files
     #
     def add_all_sources(dirpath)
-      Dir.glob("#{dirpath}*.txt").each do |f|
-        self.add_tcga_source(f)
+      file_list = Dir.glob("#{dirpath}*.txt")
+      ProgressBar.new("load files", file_list.size) do |pbar|
+        file_list.each do |f|
+          self.add_tcga_source(f)
+          pbar.inc
+        end
       end
+      # Dir.glob("#{dirpath}*.txt").each do |f|
+      #   self.add_tcga_source(f)
+      # end
     end
     #
     # given a feature, return the hash it's in
     #
-    def feature_lookup(feature) 
+    def feature_lookup(feature)
       raise "#{feature} does not exist" if !@feature_h.has_key?(feature) 
       return nil if @feature_h[feature].nil?
       @feature_h[feature][0] 

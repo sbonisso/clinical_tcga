@@ -10,4 +10,5 @@ s.files = Dir['lib/**/*.rb']
 s.require_paths = ['lib', 'ext']
 s.homepage = 'https://github.com/sbonisso/clinical_tcga'
 s.license = 'MIT'
+s.add_dependency 'progressbar'
 end
