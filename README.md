@@ -11,5 +11,6 @@ All of the metadata for COAD can be downloaded, and the environment variable poi
 
 ###### Dependencies
 * curb
+* progressbar
 * minitest
 * minitest-reporters

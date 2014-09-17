@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 
 require 'clinical_tcga/ConvertUUIDToBarcode.rb'
 
@@ -62,20 +60,14 @@ module ClinicalTCGA
     #
     #
     def getSampleRowAmbiguous(sampleID)
-      #puts [sampleID, !@h.has_key?(sampleID)].join("\t")
       if !@h.has_key?(sampleID)
         # get all keys that are  superstrings of sampleID
         selK = @h.keys.select{|k| k.include?(sampleID)}
         tmpH = Hash.new
-        #puts "SELK\t#{selK.to_s}"
         return nil if selK.empty?
-        #puts @h[selK[0]].keys.to_s
-        # puts @header.to_s
-        # @h[selK[0]].keys.each do |vk| 
         @header.each do |vk|
-          #selK.each{|sK| puts [":::", sK, @h[sK].to_s].join("\t")}
           vals = selK.map{|sK| @h[sK][vk]}
-          #puts [vk, vals.to_s].join("\t")
+          
           selVal = if vals[0].numeric? then
                      vals.map{|v| v.to_f}.mean 
                    else
@@ -111,8 +103,7 @@ module ClinicalTCGA
     def getSampleRowFromUUID(uuidStr)
       sampleID = ConvertUUIDToBarcode.getBarcode(uuidStr)
       return nil if sampleID.nil?
-
-      #truncSampleID = sampleID.split("-")[0..2].join("-")
+      
       truncSampleID = sampleID.split("-")[0..@barcodeLen-1].join("-")
       self.getSampleRow(truncSampleID)
     end
@@ -123,32 +114,10 @@ module ClinicalTCGA
       sampleID = ConvertUUIDToBarcode.getBarcode(uuidStr)
       return nil if sampleID.nil?
       
-      #truncSampleID = sampleID.split("-")[0..2].join("-")
       truncSampleID = sampleID.split("-")[0..@barcodeLen-1].join("-")
       self.getSampleValue(truncSampleID, colName)
     end
 
   end
 
-end
-
-# test out on known entity
-if __FILE__ == $0 then
-  
-  
-  #clinFile = "Clinical_READ/Biotab/nationwidechildrens.org_clinical_patient_read.txt"
-  #clinFile = "Clinical_READ/Biotab/nationwidechildrens.org_clinical_follow_up_v1.0_read.txt"
-  #clinFile = "Clinical_COAD/Biotab/nationwidechildrens.org_clinical_follow_up_v1.0_coad.txt"
-  clinFile = "Clinical_COAD/Biotab/nationwidechildrens.org_biospecimen_slide_coad.txt"
-  cm = ClinicalMetadata.new(clinFile)
-  #
-  puts cm.getSampleValueFromUUID("7c6a70e0-7fde-4b96-ab1c-fdca98839089", "histologic_diagnosis")
-  # puts cm.getSampleValueFromUUID("7c6a70e0-7fde-4b96-ab1c-fdca98839089", "tumor_status")
-  # puts cm.getSampleValueFromUUID("1dc3f8d9-c9fd-4178-a0d1-520fcf2a5ebe", "tumor_status")
-  # puts cm.getSampleValueFromUUID("28904a18-b1fc-4d2f-8cd5-3f7ff759dac1", "tumor_status")
-  # puts cm.getSampleValue("TCGA-AA-3521", "histologic_diagnosis")
-  #puts cm.getSampleRowFromUUID("7c6a70e0-7fde-4b96-ab1c-fdca98839089").to_s
-  #puts cm.getSampleRow("TCGA-D5-6539")
-  puts cm.getSampleRowAmbiguous("TCGA-D5-6539")
-  
 end
