@@ -17,19 +17,19 @@ optparse = OptionParser.new do |opt|
   opt.separator  ""
   opt.separator  "Options"
 
-  opt.on("-s", "--samples FILE", "file containing sample IDs") do |sampleF|
+  opt.on("-s", "--samples FILE", "file containing sample IDs (required)") do |sampleF|
       options[:samples] = sampleF
   end
 
-  opt.on("-f", "--features FILE", "file containing clinical features to extract") do |featureF|
+  opt.on("-f", "--features FILE", "file containing clinical features to extract (required)") do |featureF|
       options[:features] = featureF
   end
 
-  opt.on("-d", "--database FILE", "path to database ") do |databasePath|
+  opt.on("-d", "--database FILE", "path to database (required)") do |databasePath|
       options[:database] = databasePath
   end
   
-  opt.on("-o","--output FILE","output the matrix of samples and features") do |outFile|
+  opt.on("-o","--output FILE","output the matrix of samples and features (required)") do |outFile|
     options[:output] = outFile
   end
   
