@@ -53,10 +53,13 @@ feature_file = options[:features]
 path_to_data = options[:database]
 output_file = options[:output]
 path_to_data += "/" if (path_to_data[-1] != "/")
-
-sample_ids = IO.readlines(sample_file).map{|l| l.chomp}
-feature_v = IO.readlines(feature_file).map{|l| l.chomp}
-
+#
+# name to filter each line of input files by to be robust to poor formatting (i.e., errant spaces)
+name_re = Regexp.new(/\s*([\w|\_|\d|-]+)\s*/)
+#
+# extract names
+sample_ids = IO.readlines(sample_file).map{|l| name_re.match(l.chomp)[1]}
+feature_v = IO.readlines(feature_file).map{|l| name_re.match(l.chomp)[1]}
 #
 # init with samples, and desired features
 rs = ClinicalTCGA::RetrieveSamples.new(sample_ids, 
